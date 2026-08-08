@@ -1,8 +1,8 @@
 # Iterable Webinar 4×5 Template
 
 A reusable After Effects template for cutting webinar recordings into 1080×1350
-(4:5) clips for LinkedIn, plus a `.mogrt` so editors can do episode-to-episode
-work entirely inside Premiere.
+(4:5) clips for LinkedIn and Instagram, plus a `.mogrt` so editors can do
+episode-to-episode work entirely inside Premiere.
 
 | File | What it is |
 |---|---|
@@ -20,14 +20,22 @@ Canvas **1080×1350**, all content inside a 10% title-safe inset.
 |---|---|---|---|
 | Logo | 420, 100 | 240 × 70 | — |
 | Speaker window | 108, 200 | 864 × 486 (16:9) | 20px corner radius |
-| Speaker name | centred | band 864 × 100 @ y706 | Sofia Pro Medium 42px, bold |
+| Speaker name | centred | band 840 × 100 @ y706 | Sofia Pro Medium 42px, bold |
 | Title & company | centred | (same band) | Sofia Pro Medium 38px |
-| Caption line 1–2 | centred | band 864 × 170 @ y826 | Sofia Pro Medium 58px |
-| Session title | centred | band 864 × 90 @ y1016 | Sofia Pro Medium 40px |
+| Caption line 1–2 | centred | band 840 × 170 @ y826 | Sofia Pro Medium 58px |
+| Session title | centred | band 840 × 90 @ y1016 | Sofia Pro Medium 40px |
+
+The video window is 864 wide but the **text bands are 840** (x120–960). That
+difference is deliberate — it keeps text clear of Instagram's Reels action rail
+while letting the footage run wider, since video sitting under a UI button is
+fine and text isn't.
 
 **Guides (non-rendering):**
 - Title-safe — 108px sides, 90px top/bottom
 - LinkedIn control-safe — bottom bar y1240–1350, top-right icon x984–1080 / y0–64
+- Instagram Reels action rail — x960–1080, y815–1315
+- Instagram Reels caption strip — y1315–1350
+- Instagram profile grid crop — x34–1046 (3:4 thumbnail)
 
 Type sizes were set against a phone-width legibility check rather than by eye on
 a desktop monitor. At a ~240px LinkedIn feed render, captions land at ≈12.9px
@@ -152,18 +160,56 @@ than a continuous transcript.
 ### Before you export
 
 Toggle the guide layers on for a moment and confirm nothing important sits under
-the bottom control-safe strip or the top-right icon corner. The guides never
-render, so leaving them on costs nothing.
+any of the platform chrome zones — the LinkedIn bottom strip and top-right icon,
+or the Instagram Reels rail and caption strip. The guides never render, so
+leaving them on costs nothing.
 
 ---
+
+## Posting to Instagram
+
+The same file works on Instagram, but one behaviour is worth understanding
+before you post, because it changes what the frame has to survive.
+
+**A 4:5 video posted to Instagram becomes a Reel.** Reels play in a 1080×1920
+viewport, so our 4:5 frame is fit to width and centred, with 285px letterbox
+bars top and bottom. That actually helps — it lifts our content into the middle
+of the player, away from most of the UI.
+
+What that means in practice:
+
+- **Bottom UI — fine.** Reels chrome covers roughly the bottom 320px of the
+  viewport, which reaches only 35px into our frame. Our lowest element ends at
+  y1106, so there's over 200px of clearance. The LinkedIn bottom guide is
+  stricter and already covers this.
+- **Right action rail — handled.** The like/comment/share rail sits in the right
+  ~120px. This is why the text bands were narrowed from 864 to 840; at the
+  original width their right edge poked 12px into the rail.
+- **Profile grid — fine.** Grid thumbnails crop to 3:4, taking about 34px off
+  each side. Our 108px title-safe inset clears it comfortably, and since the grid
+  went 4:5 this format now sits in it natively.
+
+### ⚠️ Always upload as "fit", never "fill"
+
+When you upload a non-9:16 video as a Reel, Instagram offers to fit it
+(letterboxed, as above) or fill the frame. **Fill crops 4:5 down to 9:16 by
+cutting the sides** — roughly 160px off each edge. That cuts straight through the
+caption chip and clips the ends of longer lines. This is the one setting that can
+ruin an otherwise correct export.
+
+A note on the numbers: published Instagram safe-zone figures vary between
+sources and Instagram changes its UI without announcing it, so treat the rail and
+strip measurements as good estimates. The structural conclusions hold regardless.
+Worth confirming with one test post screenshotted on a phone.
 
 ## Open items
 
 - **Caption chip styling** — the 55% black chip is a placeholder. Check it
   against Iterable's caption/brand guidance and adjust.
-- **LinkedIn control-safe measurements** — these are based on typical native
-  player chrome. Worth posting one test clip and screenshotting it on a phone to
-  confirm the bottom 110px is right before the template goes wide.
+- **Platform chrome measurements** — the LinkedIn and Instagram zones are both
+  based on published figures for typical player UI, not measurements taken off a
+  device. One test post per platform, screenshotted on a phone, would confirm
+  them before the template goes wide.
 - **Type hierarchy** — name (42px) and role (38px) are close in size; the
   separation is doing its work through weight and colour. If it reads flat once
   real content is in, raise the name to 48px rather than shrinking the role back

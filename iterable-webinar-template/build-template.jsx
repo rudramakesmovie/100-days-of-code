@@ -42,11 +42,22 @@
         controlBottom: { x: 0,   y: 1240, w: 1080, h: 110 },
         controlCorner: { x: 984, y: 0,    w: 96,   h: 64  },
 
+        // Instagram. A 4:5 video posted to IG becomes a Reel and is letterboxed
+        // into a 1080x1920 player (285px bars top and bottom), so these are the
+        // Reels UI zones mapped back onto our 1080x1350 frame.
+        igReelsRail:   { x: 960, y: 815,  w: 120,  h: 500 },  // right action rail
+        igReelsBottom: { x: 0,   y: 1315, w: 1080, h: 35  },  // caption/audio strip
+        igGridCrop:    { x: 34,  y: 0,    w: 1012, h: 1350 }, // 3:4 profile thumbnail
+
         logo:    { x: 420, y: 100, w: 240, h: 70  },
+
+        // Video window stays 864 wide — footage sitting under a UI button is fine.
         speaker: { x: 108, y: 200, w: 864, h: 486, radius: 20 },
-        idBand:  { x: 108, y: 706, w: 864, h: 100 },
-        caption: { x: 108, y: 826, w: 864, h: 170 },
-        title:   { x: 108, y: 1016, w: 864, h: 90 },
+
+        // Text bands pull in to 840 so they clear Instagram's right-hand rail.
+        idBand:  { x: 120, y: 706, w: 840, h: 100 },
+        caption: { x: 120, y: 826, w: 840, h: 170 },
+        title:   { x: 120, y: 1016, w: 840, h: 90 },
 
         type: {
             name:    { size: 42, baseline: 744, color: [1.00, 1.00, 1.00] },
@@ -62,7 +73,8 @@
             footage:    [0.180, 0.192, 0.239],
             captionChip:[0.000, 0.000, 0.000],
             guideSafe:  [1.000, 0.365, 0.635],
-            guideCtrl:  [1.000, 0.690, 0.125]
+            guideCtrl:  [1.000, 0.690, 0.125],
+            guideIG:    [0.400, 0.800, 1.000]
         },
 
         captionChipOpacity: 55,  // percent
@@ -177,6 +189,12 @@
         comp.openInViewer();
 
         // --- Guides (added first so they end up at the top of the stack) ---
+        makeGuideBox(comp, "GUIDE — IG profile grid crop (3:4)",
+                     CFG.igGridCrop, CFG.color.guideIG);
+        makeGuideBox(comp, "GUIDE — IG Reels caption strip",
+                     CFG.igReelsBottom, CFG.color.guideIG);
+        makeGuideBox(comp, "GUIDE — IG Reels action rail",
+                     CFG.igReelsRail, CFG.color.guideIG);
         makeGuideBox(comp, "GUIDE — LinkedIn control-safe (top-right icon)",
                      CFG.controlCorner, CFG.color.guideCtrl);
         makeGuideBox(comp, "GUIDE — LinkedIn control-safe (bottom bar)",

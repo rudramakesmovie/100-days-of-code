@@ -355,6 +355,117 @@
   }
   .verdict-list li{margin-bottom:8px;}
   .verdict-list li:last-child{margin-bottom:0;}
+
+  /* ---- Instagram cross-check ---- */
+  .ig{
+    margin-top:56px;
+    border-top:1px solid var(--line);
+    padding-top:36px;
+  }
+  .ig-grid{
+    display:grid;
+    grid-template-columns:minmax(280px,360px) 1fr;
+    gap:40px;
+    align-items:start;
+    margin-top:24px;
+  }
+  @media (max-width:860px){
+    .ig-grid{grid-template-columns:1fr;}
+  }
+  .reels-stage{
+    position:relative;
+    width:100%;
+    max-width:300px;
+    aspect-ratio:1080/1920;
+    background:#0a0a0c;
+    border:1px solid var(--line);
+    border-radius:4px;
+    overflow:hidden;
+    container-type:inline-size;
+  }
+  /* the 4:5 video letterboxed into the 9:16 Reels player */
+  .reels-video{
+    position:absolute;
+    left:0; right:0;
+    top:14.84%;    /* 285/1920 */
+    height:70.31%; /* 1350/1920 */
+    background:radial-gradient(120% 70% at 50% 0%, #23263a 0%, #15161a 62%);
+    border-top:1px solid rgba(255,255,255,0.12);
+    border-bottom:1px solid rgba(255,255,255,0.12);
+  }
+  .reels-bar{
+    position:absolute;
+    font-family:var(--mono);
+    font-size:7px;
+    color:#7c7f92;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    display:flex;align-items:center;justify-content:center;
+    text-align:center;
+  }
+  .reels-letterbox-top{left:0;right:0;top:0;height:14.84%;}
+  .reels-letterbox-bot{left:0;right:0;bottom:0;height:14.84%;}
+  .reels-ui{
+    position:absolute;
+    background:repeating-linear-gradient(135deg, rgba(255,60,120,0.22) 0 5px, rgba(255,60,120,0.07) 5px 10px);
+    border:1px dashed #ff3c78;
+  }
+  .reels-rail{right:0; width:11.11%; top:57.3%; bottom:16.67%;}
+  .reels-caption{left:0; right:11.11%; bottom:14.06%; height:14%;}
+  .ig-legend{
+    display:flex;flex-direction:column;gap:6px;
+    margin-top:12px;
+    font-family:var(--mono);
+    font-size:10px;
+    color:var(--ink-soft);
+  }
+  .ig-legend span{display:flex;align-items:center;gap:7px;}
+  .verdict{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:10px;
+    padding:2px 7px;
+    border-radius:3px;
+    margin-right:8px;
+    vertical-align:middle;
+  }
+  .v-pass{background:#dcf3e4;color:#1c6b3a;}
+  .v-warn{background:#fdeccd;color:#8a5a05;}
+  .v-fail{background:#fbdcdc;color:#96201f;}
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) .v-pass{background:#12331f;color:#79d79b;}
+    :root:not([data-theme="light"]) .v-warn{background:#3a2c0c;color:#e8b552;}
+    :root:not([data-theme="light"]) .v-fail{background:#3d1616;color:#f08a89;}
+  }
+  :root[data-theme="dark"] .v-pass{background:#12331f;color:#79d79b;}
+  :root[data-theme="dark"] .v-warn{background:#3a2c0c;color:#e8b552;}
+  :root[data-theme="dark"] .v-fail{background:#3d1616;color:#f08a89;}
+  .finding{
+    border-top:1px solid var(--line);
+    padding-top:14px;
+    margin-top:14px;
+  }
+  .finding:first-of-type{border-top:none;padding-top:0;margin-top:0;}
+  .finding h3{
+    font-size:14px;
+    margin:0 0 6px;
+    font-weight:600;
+  }
+  .finding p{
+    font-size:13px;
+    line-height:1.6;
+    color:var(--ink-soft);
+    margin:0;
+  }
+  .caveat{
+    background:var(--accent-soft);
+    border-radius:6px;
+    padding:14px 16px;
+    font-size:12.5px;
+    line-height:1.6;
+    color:var(--ink);
+    margin-top:24px;
+  }
 </style>
 </head>
 <body>
@@ -544,6 +655,76 @@
         </ul>
         <span class="flag">✓ role text raised to 38px — all elements now clear the phone floor</span>
       </div>
+    </div>
+  </section>
+
+  <section class="ig">
+    <h2 class="legibility-title">Instagram cross-check</h2>
+    <p class="sub" style="max-width:720px;">
+      The template was built to LinkedIn's player chrome. Instagram treats the same file differently in one
+      way that matters: <strong>a 4:5 video posted to Instagram becomes a Reel</strong>, and Reels play in a
+      1080×1920 viewport. Our 4:5 frame gets fit to width and centred, leaving 285px letterbox bars top and
+      bottom — which pushes our content into the middle of the player, away from most of the UI.
+    </p>
+
+    <div class="ig-grid">
+      <div>
+        <div class="reels-stage">
+          <div class="reels-bar reels-letterbox-top">letterbox 285px</div>
+          <div class="reels-video"></div>
+          <div class="reels-bar reels-letterbox-bot">letterbox 285px</div>
+          <div class="reels-ui reels-rail"></div>
+          <div class="reels-ui reels-caption"></div>
+        </div>
+        <div class="ig-legend">
+          <span><span class="swatch" style="background:#ff3c78"></span>Instagram Reels UI overlay</span>
+          <span style="padding-left:16px;">Our 4:5 frame sits in the lighter band</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Findings</h2>
+
+        <div class="finding">
+          <h3><span class="verdict v-pass">PASS</span>Profile grid crop</h3>
+          <p>Instagram's grid thumbnails crop to 3:4, taking roughly 34px off each side of a 1080×1350 frame.
+          Our title-safe inset is 108px, so nothing important is anywhere near the cut. The move to a 4:5 grid
+          also means this format sits natively in the grid rather than being squared off.</p>
+        </div>
+
+        <div class="finding">
+          <h3><span class="verdict v-pass">PASS</span>Bottom UI, letterboxed</h3>
+          <p>Reels UI occupies roughly the bottom 320px of the viewport. After letterboxing, that reaches only
+          35px into the bottom of our frame (y1315–1350). Our lowest element — the title band — ends at y1106,
+          leaving 209px of clearance. The existing LinkedIn bottom guide (110px) is <em>stricter</em> than what
+          Instagram needs here, so it already covers this case.</p>
+        </div>
+
+        <div class="finding">
+          <h3><span class="verdict v-warn">MINOR</span>Right-side action rail</h3>
+          <p>The like/comment/share rail sits in the right ~120px of the viewport, spanning roughly y1100–1600
+          — which maps onto y815–1315 of our frame. Our content bands run x108–972, so their right edge pokes
+          <strong>12px</strong> into that zone. The speaker window is unaffected in practice (video sitting under
+          a UI button is normal), but the caption chip and title band backgrounds clip slightly. Fix is to pull
+          the text bands in to x120–960 (840 wide) and leave the video window at 864.</p>
+        </div>
+
+        <div class="finding">
+          <h3><span class="verdict v-fail">WATCH</span>The crop-to-fill trap</h3>
+          <p>This is the one that actually ruins a post. When you upload a non-9:16 video as a Reel, Instagram
+          offers to <em>fit</em> it (letterboxed, as analysed above) or <em>fill</em> the frame. Choosing fill
+          crops 4:5 down to 9:16 by cutting the <strong>sides</strong> — about 160px off each edge. That slices
+          straight through the caption chip and clips the ends of longer text lines. Always choose fit.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="caveat">
+      <strong>On these numbers:</strong> published Instagram safe-zone figures vary between sources and Instagram
+      changes its UI without notice, so treat the rail and bottom measurements as good estimates rather than
+      gospel. The structural conclusions — letterboxing buys us clearance at the bottom, the right rail is the
+      only real encroachment, and crop-to-fill is destructive — hold regardless of the exact pixel values. Worth
+      confirming with one test post screenshotted on a phone before the template goes wide.
     </div>
   </section>
 </div>

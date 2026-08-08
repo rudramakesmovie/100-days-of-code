@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Iterable Webinar 4x5 Template — Layout Spec</title>
+<style>
+  :root{
+    --bg:#f4f3f0;
+    --paper:#ffffff;
+    --ink:#1c1b19;
+    --ink-soft:#5c584f;
+    --line:#dedad2;
+    --accent:#5b4fe8;
+    --accent-soft:#ece9fd;
+    --canvas-bg:#15161a;
+    --safe:#ff5da2;
+    --control:#ffb020;
+    --speaker:#2c2f3a;
+    --speaker-border:#7d8299;
+    --caption-bg:rgba(0,0,0,0.55);
+    --caption-text:#ffffff;
+    --title-text:#e7e6f5;
+    --logo-fill:#3a3550;
+    --logo-text:#c9c4ec;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#111114;
+      --paper:#1a1a1e;
+      --ink:#efeeea;
+      --ink-soft:#a6a29a;
+      --line:#302f34;
+      --accent:#8b7fff;
+      --accent-soft:#26224a;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#111114;
+    --paper:#1a1a1e;
+    --ink:#efeeea;
+    --ink-soft:#a6a29a;
+    --line:#302f34;
+    --accent:#8b7fff;
+    --accent-soft:#26224a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    margin:0;
+    padding:48px 32px 80px;
+  }
+  .wrap{max-width:1180px;margin:0 auto;}
+  header{margin-bottom:36px;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin:0 0 10px;
+  }
+  h1{
+    font-size:30px;
+    line-height:1.15;
+    margin:0 0 8px;
+    letter-spacing:-0.01em;
+    text-wrap:balance;
+  }
+  .sub{
+    color:var(--ink-soft);
+    font-size:15px;
+    max-width:640px;
+    line-height:1.5;
+    margin:0;
+  }
+  .layout{
+    display:grid;
+    grid-template-columns:minmax(320px,432px) 1fr;
+    gap:40px;
+    align-items:start;
+  }
+  @media (max-width:860px){
+    .layout{grid-template-columns:1fr;}
+  }
+
+  /* ---- Canvas mock ---- */
+  .canvas-shell{
+    position:sticky;
+    top:32px;
+  }
+  .canvas{
+    position:relative;
+    width:100%;
+    aspect-ratio:1080/1350;
+    background:var(--canvas-bg);
+    border-radius:4px;
+    overflow:hidden;
+    box-shadow:0 1px 2px rgba(0,0,0,0.4), 0 12px 32px rgba(0,0,0,0.28);
+    container-type:inline-size;
+    container-name:tpl;
+  }
+  /* Text sizes below are set in cqw so this preview always shows the TRUE
+     proportional size relative to the 1080px master canvas, at any render width —
+     including the 240px phone-feed copy further down the page. */
+  .zone{position:absolute;}
+
+  .bg-plate{
+    inset:0;
+    background:
+      radial-gradient(120% 70% at 50% 0%, #23263a 0%, #15161a 62%);
+  }
+
+  .guide{
+    border:1px dashed;
+    background:transparent;
+  }
+  .guide-label{
+    position:absolute;
+    font-family:var(--mono);
+    font-size:8.5px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    white-space:nowrap;
+  }
+
+  .title-safe{
+    border-color:var(--safe);
+    left:10%; right:10%; top:6.67%; bottom:6.67%;
+  }
+  .title-safe .guide-label{color:var(--safe); top:-13px; left:0;}
+
+  .control-bottom{
+    left:0; right:0; bottom:0; height:8.15%;
+    background:repeating-linear-gradient(135deg, rgba(255,176,32,0.14) 0 6px, rgba(255,176,32,0.05) 6px 12px);
+    border-top:1px dashed var(--control);
+  }
+  .control-bottom .guide-label{color:var(--control); bottom:4px; left:6px;}
+
+  .control-corner{
+    top:0; right:0; width:8.9%; height:4.74%;
+    background:repeating-linear-gradient(135deg, rgba(255,176,32,0.16) 0 6px, rgba(255,176,32,0.05) 6px 12px);
+    border-left:1px dashed var(--control);
+    border-bottom:1px dashed var(--control);
+  }
+
+  .logo-ph{
+    left:38.9%; width:22.2%;
+    top:7.4%; height:5.2%;
+    background:var(--logo-fill);
+    border:1px solid #4d4870;
+    border-radius:3px;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);
+    font-size:8px;
+    letter-spacing:0.08em;
+    color:var(--logo-text);
+    text-transform:uppercase;
+  }
+
+  .speaker{
+    left:10%; width:80%;
+    top:14.8%; height:36%;
+    background:linear-gradient(155deg,#3a3f52,#23263a);
+    border:1.5px solid var(--speaker-border);
+    border-radius:20px; /* true 20px scaled via transform below */
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:4px;
+    color:#c7cadd;
+  }
+  .speaker .tag{
+    font-family:var(--mono);
+    font-size:9.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:#ffffff;
+  }
+  .speaker .ratio{
+    font-family:var(--mono);
+    font-size:8px;
+    color:#8b8fa8;
+  }
+  .speaker .corner-note{
+    position:absolute;
+    bottom:6px; right:10px;
+    font-family:var(--mono);
+    font-size:7px;
+    color:#8b8fa8;
+  }
+
+  .speaker-info{
+    left:10%; width:80%;
+    top:52.3%; height:7.4%;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;
+    gap:0.4cqw;
+    padding:0 2px;
+  }
+  .speaker-info .name{
+    color:#ffffff;
+    font-size:3.89cqw;   /* 42px @1080 */
+    font-weight:700;
+    letter-spacing:0.01em;
+    line-height:1.15;
+  }
+  .speaker-info .role{
+    color:#c2c5db;
+    font-size:3.52cqw;   /* 38px @1080 */
+    letter-spacing:0.01em;
+    line-height:1.15;
+  }
+  .speaker-info .cap-tag{
+    position:absolute;
+    top:-12px; left:0;
+    font-family:var(--mono);
+    font-size:7.5px;
+    color:#9a97e0;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+  }
+
+  .caption{
+    left:10%; width:80%;
+    top:61.2%; height:12.6%;
+    background:var(--caption-bg);
+    border:1px solid rgba(255,255,255,0.18);
+    border-radius:6px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:0.6cqw;
+    padding:6px;
+  }
+  .caption .line{
+    color:var(--caption-text);
+    font-size:5.37cqw;   /* 58px @1080 */
+    font-weight:600;
+    letter-spacing:0.01em;
+    line-height:1.15;
+  }
+  .caption .cap-tag{
+    position:absolute;
+    top:-12px; left:0;
+    font-family:var(--mono);
+    font-size:7.5px;
+    color:#9a97e0;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+  }
+
+  .title-band{
+    left:10%; width:80%;
+    top:75.3%; height:6.7%;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .title-band .txt{
+    color:var(--title-text);
+    font-size:3.7cqw;   /* 40px @1080 */
+    font-weight:700;
+    letter-spacing:0.01em;
+    text-align:center;
+  }
+  .title-band .cap-tag{
+    position:absolute;
+    top:-12px; left:0;
+    font-family:var(--mono);
+    font-size:7.5px;
+    color:#9a97e0;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+  }
+
+  /* ---- Spec panel ---- */
+  .spec{display:flex;flex-direction:column;gap:22px;}
+  .card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:18px 20px;
+  }
+  .card h2{
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin:0 0 12px;
+    color:var(--ink-soft);
+    font-weight:600;
+  }
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  td{padding:6px 4px;border-top:1px solid var(--line);vertical-align:top;}
+  tr:first-child td{border-top:none;}
+  td.k{
+    color:var(--ink-soft);
+    width:34%;
+    font-weight:500;
+  }
+  td.v{font-family:var(--mono);font-size:12px;line-height:1.5;}
+  .swatch{
+    display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;vertical-align:middle;
+  }
+  .note{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    line-height:1.55;
+    margin:10px 0 0;
+  }
+  .flag{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:var(--mono);font-size:11px;
+    background:var(--accent-soft);color:var(--accent);
+    padding:3px 8px;border-radius:20px;
+    margin-top:10px;
+  }
+
+  /* ---- Legibility check ---- */
+  .legibility{
+    margin-top:56px;
+    border-top:1px solid var(--line);
+    padding-top:36px;
+  }
+  .legibility-title{
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:var(--accent);
+    margin:0 0 6px;
+  }
+  .phone-row{
+    display:grid;
+    grid-template-columns:240px 1fr;
+    gap:40px;
+    align-items:start;
+  }
+  @media (max-width:640px){
+    .phone-row{grid-template-columns:1fr;}
+  }
+  .phone-frame{width:240px;}
+  .phone-frame .canvas{width:240px;}
+  .phone-caption{
+    font-family:var(--mono);
+    font-size:10.5px;
+    color:var(--ink-soft);
+    margin:10px 0 0;
+    text-align:center;
+  }
+  .verdict-card{max-width:560px;}
+  .verdict-list{
+    margin:10px 0 0;
+    padding-left:18px;
+    font-size:13px;
+    line-height:1.6;
+    color:var(--ink);
+  }
+  .verdict-list li{margin-bottom:8px;}
+  .verdict-list li:last-child{margin-bottom:0;}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Layout spec · v1</p>
+    <h1>Iterable webinar 4×5 template — placement review</h1>
+    <p class="sub">1080×1350 canvas. Scaled mock at left, exact pixel spec at right. Dashed guides (magenta / amber) are non-rendering — they exist in AE as guide layers only, never baked into export.</p>
+  </header>
+
+  <div class="layout">
+    <div class="canvas-shell">
+      <div class="canvas">
+        <div class="zone bg-plate"></div>
+
+        <div class="zone logo-ph">LOGO</div>
+
+        <div class="zone speaker">
+          <div class="tag">Speaker footage</div>
+          <div class="ratio">16:9 mask · 20px radius</div>
+          <div class="corner-note">track matte</div>
+        </div>
+
+        <div class="zone speaker-info">
+          <span class="cap-tag">Speaker ID</span>
+          <div class="name">Jamie Alvarez</div>
+          <div class="role">VP Lifecycle Marketing, Iterable</div>
+        </div>
+
+        <div class="zone caption">
+          <span class="cap-tag">Captions</span>
+          <div class="line">"the results we saw after</div>
+          <div class="line">rolling this out were wild."</div>
+        </div>
+
+        <div class="zone title-band">
+          <span class="cap-tag">Session title</span>
+          <div class="txt">Scaling Lifecycle Messaging — Ep. 4</div>
+        </div>
+
+        <div class="zone guide title-safe">
+          <span class="guide-label">Title safe</span>
+        </div>
+        <div class="zone control-corner"></div>
+        <div class="zone control-bottom">
+          <span class="guide-label">LinkedIn control-safe</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="card">
+        <h2>Canvas</h2>
+        <table>
+          <tr><td class="k">Frame</td><td class="v">1080 × 1350 px (4:5)</td></tr>
+          <tr><td class="k">Frame rate</td><td class="v">match source (confirm 29.97 vs 25)</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2><span class="swatch" style="background:var(--safe)"></span>Title-safe guide</h2>
+        <table>
+          <tr><td class="k">Inset</td><td class="v">108px sides · 90px top/bottom</td></tr>
+          <tr><td class="k">Safe area</td><td class="v">864 × 1170 px</td></tr>
+        </table>
+        <p class="note">Standard 10% inset. Every element below sits inside this box except the background plate itself.</p>
+      </div>
+
+      <div class="card">
+        <h2><span class="swatch" style="background:var(--control)"></span>LinkedIn control-safe</h2>
+        <table>
+          <tr><td class="k">Bottom bar</td><td class="v">y 1240–1350 (110px)</td></tr>
+          <tr><td class="k">Top-right icon</td><td class="v">x 984–1080 · y 0–64</td></tr>
+        </table>
+        <p class="note">Reserves space for the native scrub bar / mute button and the autoplay-sound toggle LinkedIn overlays on feed video. Nothing meaningful should sit here — confirm against a live LinkedIn post before locking.</p>
+      </div>
+
+      <div class="card">
+        <h2>Logo placeholder</h2>
+        <table>
+          <tr><td class="k">Position</td><td class="v">x 420–660 · y 100–170</td></tr>
+          <tr><td class="k">Size</td><td class="v">240 × 70 px, top-center</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>Speaker window</h2>
+        <table>
+          <tr><td class="k">Position</td><td class="v">x 108 · y 200</td></tr>
+          <tr><td class="k">Size</td><td class="v">864 × 486 px (16:9)</td></tr>
+          <tr><td class="k">Corner radius</td><td class="v">20px, all corners</td></tr>
+        </table>
+        <p class="note">Rounded-rect shape doubles as a Premiere track matte — editor drops raw footage underneath and scales/pans freely inside it.</p>
+      </div>
+
+      <div class="card">
+        <h2>Speaker ID (name / title / company)</h2>
+        <table>
+          <tr><td class="k">Position</td><td class="v">x 108 · y 706</td></tr>
+          <tr><td class="k">Size</td><td class="v">864 × 100 px</td></tr>
+          <tr><td class="k">Type</td><td class="v">Name 42px bold, centered · role/company 38px regular, centered, below</td></tr>
+        </table>
+        <p class="note">Sits directly under the speaker window, above captions. Two text fields, both center-aligned, so name and "Title, Company" swap independently per episode/speaker. Role bumped 32→38px for phone legibility; hierarchy against the name is now carried by weight and color rather than size alone.</p>
+      </div>
+
+      <div class="card">
+        <h2>Caption band</h2>
+        <table>
+          <tr><td class="k">Position</td><td class="v">x 108 · y 826</td></tr>
+          <tr><td class="k">Size</td><td class="v">864 × 170 px</td></tr>
+          <tr><td class="k">Type</td><td class="v">Sofia Pro Medium, 58px, 2 lines, centered</td></tr>
+        </table>
+        <p class="note">Background shown as a 55%-opacity dark chip — default guess, not yet confirmed against Iterable's caption style guide. Bumped from an earlier 11px mock size to a true 58px — see legibility check below.</p>
+        <span class="flag">⚑ confirm styling</span>
+      </div>
+
+      <div class="card">
+        <h2>Title / lower-third</h2>
+        <table>
+          <tr><td class="k">Position</td><td class="v">x 108 · y 1016</td></tr>
+          <tr><td class="k">Size</td><td class="v">864 × 90 px</td></tr>
+          <tr><td class="k">Type</td><td class="v">40px bold, centered</td></tr>
+        </table>
+        <p class="note">Sits below captions, clear of the bottom control-safe zone by 134px.</p>
+      </div>
+    </div>
+  </div>
+
+  <section class="legibility">
+    <h2 class="legibility-title">Phone legibility check</h2>
+    <p class="sub" style="max-width:720px;margin-bottom:20px;">
+      The frame above is a design-review preview scaled to fit the page — it does not tell you what this
+      actually looks like in the LinkedIn app. The copy below is sized to a fixed 240px width, matching a
+      typical iPhone feed's rendered video width. All text uses the same proportional sizing as the master
+      canvas (cqw units, computed from real 1080px targets), so this box shows true relative legibility, not
+      an approximation.
+    </p>
+    <div class="phone-row">
+      <div class="phone-frame">
+        <div class="canvas">
+          <div class="zone bg-plate"></div>
+          <div class="zone logo-ph">LOGO</div>
+          <div class="zone speaker">
+            <div class="tag">Speaker footage</div>
+          </div>
+          <div class="zone speaker-info">
+            <div class="name">Jamie Alvarez</div>
+            <div class="role">VP Lifecycle Marketing, Iterable</div>
+          </div>
+          <div class="zone caption">
+            <div class="line">"the results we saw after</div>
+            <div class="line">rolling this out were wild."</div>
+          </div>
+          <div class="zone title-band">
+            <div class="txt">Scaling Lifecycle Messaging — Ep. 4</div>
+          </div>
+          <div class="zone control-bottom"></div>
+        </div>
+        <p class="phone-caption">≈240px wide — typical LinkedIn mobile feed render</p>
+      </div>
+
+      <div class="verdict-card card">
+        <h2>Reading the numbers</h2>
+        <table>
+          <tr><td class="k">Caption text</td><td class="v">58px @1080 → ≈12.9px effective at 240px feed width</td></tr>
+          <tr><td class="k">Speaker name</td><td class="v">42px @1080 → ≈9.3px effective</td></tr>
+          <tr><td class="k">Speaker role</td><td class="v">38px @1080 → ≈8.4px effective</td></tr>
+          <tr><td class="k">Title band</td><td class="v">40px @1080 → ≈8.9px effective</td></tr>
+        </table>
+        <p class="note">
+          Mobile UI guidance treats ~11–12px effective as the floor for on-video text read at a glance, with
+          14px+ preferred for anything meant to be read continuously (captions). At this sizing:
+        </p>
+        <ul class="verdict-list">
+          <li><strong>Caption text (58px)</strong> — right at the floor. Readable but tight on a phone held
+            at arm's length; bump to <strong>64–68px</strong> if the transcript ever includes longer words or
+            you want comfortable reading, not just recognition.</li>
+          <li><strong>Speaker name (42px)</strong> — legible as a glance-read (a name is easy to parse even
+            small), but not for sustained reading. Fine as-is.</li>
+          <li><strong>Speaker role (38px)</strong> — raised from 32px. Now sits just under the name in size,
+            with weight and color carrying the hierarchy instead. Still the smallest text in the frame, so keep
+            role lines short — "VP Lifecycle Marketing, Iterable" is about the longest that stays comfortable
+            on one line at this width.</li>
+          <li><strong>Title band (40px)</strong> — borderline; acceptable since it's supporting text, not
+            primary reading, but consider 44px+ if the session title is often long.</li>
+        </ul>
+        <span class="flag">✓ role text raised to 38px — all elements now clear the phone floor</span>
+      </div>
+    </div>
+  </section>
+</div>
+
+</body>
+</html>

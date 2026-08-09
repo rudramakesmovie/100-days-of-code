@@ -1,0 +1,88 @@
+{
+  "_comment": [
+    "Canonical geometry for the Iterable webinar template.",
+    "Every other file in this project is derived from these numbers:",
+    "  ../build-template.jsx  (CFG block, values as 0-1 RGB floats)",
+    "  ../layout-spec.html    (design review mock)",
+    "  iterable-webinar-4x5.svg / iterable-webinar-9x16.svg",
+    "  plugin/code.js         (LAYOUT const)",
+    "If you change a value here, change it in all of them. There is no",
+    "build step wiring these together - it is a five-file design kit and",
+    "a toolchain would cost more than it saves."
+  ],
+
+  "palette": {
+    "bgPlate": "#15161A",
+    "logoPlate": "#3A3550",
+    "footagePlaceholder": "#2E313D",
+    "captionChip": "#000000",
+    "captionChipOpacity": 0.55,
+    "textPrimary": "#FFFFFF",
+    "textSecondary": "#C2C4DB",
+    "textTitle": "#E8E6F5",
+    "guideTitleSafe": "#FF5DA2",
+    "guideLinkedIn": "#FFB020",
+    "guideInstagram": "#66CCFF"
+  },
+
+  "type": {
+    "family": "Sofia Pro",
+    "styleBody": "Medium",
+    "styleName": "Bold",
+    "_styleNote": "Name is the only element set in Bold. Everything else is Medium. If Sofia Pro Bold is not installed, fall back to Medium - the hierarchy still reads through colour and size.",
+    "sizes": { "name": 42, "role": 38, "caption": 58, "title": 40 }
+  },
+
+  "frames": {
+    "4x5": {
+      "label": "Webinar 4:5 - 1080x1350 - APPROVED",
+      "width": 1080,
+      "height": 1350,
+      "elements": {
+        "logo":    { "x": 420, "y": 100,  "w": 240, "h": 70 },
+        "speaker": { "x": 108, "y": 200,  "w": 864, "h": 486, "cornerRadius": 20 },
+        "idBand":  { "x": 120, "y": 706,  "w": 840, "h": 100 },
+        "caption": { "x": 120, "y": 826,  "w": 840, "h": 170, "cornerRadius": 8 },
+        "title":   { "x": 120, "y": 1016, "w": 840, "h": 90 }
+      },
+      "baselines": { "name": 744, "role": 788, "caption1": 891, "caption2": 958, "title": 1075 },
+      "guides": {
+        "titleSafe":       { "x": 108, "y": 90,   "w": 864,  "h": 1170, "platform": "both" },
+        "linkedInBottom":  { "x": 0,   "y": 1240, "w": 1080, "h": 110,  "platform": "linkedin" },
+        "linkedInCorner":  { "x": 984, "y": 0,    "w": 96,   "h": 64,   "platform": "linkedin" },
+        "igReelsRail":     { "x": 960, "y": 815,  "w": 120,  "h": 500,  "platform": "instagram" },
+        "igReelsBottom":   { "x": 0,   "y": 1315, "w": 1080, "h": 35,   "platform": "instagram" },
+        "igGridCrop":      { "x": 34,  "y": 0,    "w": 1012, "h": 1350, "platform": "instagram" }
+      }
+    },
+
+    "9x16": {
+      "label": "Webinar 9:16 - DERIVED, not yet designed",
+      "_note": "Scaled starting point, not approved work. Element sizes are carried over unchanged from the 4:5 and the stack is re-centred for the taller canvas. The design team owns how this actually adapts.",
+      "width": 1080,
+      "height": 1920,
+      "elements": {
+        "logo":    { "x": 420, "y": 390,  "w": 240, "h": 70 },
+        "speaker": { "x": 108, "y": 550,  "w": 864, "h": 486, "cornerRadius": 20 },
+        "idBand":  { "x": 120, "y": 1090, "w": 840, "h": 100 },
+        "caption": { "x": 120, "y": 1210, "w": 840, "h": 170, "cornerRadius": 8 },
+        "title":   { "x": 120, "y": 1410, "w": 840, "h": 90 }
+      },
+      "baselines": { "name": 1128, "role": 1172, "caption1": 1275, "caption2": 1342, "title": 1469 },
+      "guides": {
+        "reelsTop":    { "x": 0,   "y": 0,    "w": 1080, "h": 108, "platform": "instagram" },
+        "reelsBottom": { "x": 0,   "y": 1600, "w": 1080, "h": 320, "platform": "instagram" },
+        "reelsRail":   { "x": 960, "y": 1100, "w": 120,  "h": 500, "platform": "instagram" },
+        "reelsLeft":   { "x": 0,   "y": 0,    "w": 60,   "h": 1920, "platform": "instagram" }
+      }
+    }
+  },
+
+  "copy": {
+    "name": "Jamie Alvarez",
+    "role": "VP Lifecycle Marketing, Iterable",
+    "caption1": "“the results we saw after",
+    "caption2": "rolling this out were wild.”",
+    "title": "Scaling Lifecycle Messaging — Ep. 4"
+  }
+}

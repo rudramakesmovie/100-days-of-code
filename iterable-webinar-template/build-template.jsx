@@ -31,8 +31,13 @@
         fps:      29.97,   // match your webinar source before building
         duration: 30,      // seconds; placeholder length, trim in Premiere
 
-        // PostScript name. See "IF THE FONT IS WRONG" above.
+        // PostScript names. See "IF THE FONT IS WRONG" above.
+        // fontBold is used for the speaker name only — it is the one element
+        // the approved design sets heavier than the rest. If Bold is not
+        // installed the name falls back to Medium and the hierarchy still
+        // reads through colour and size.
         font:     "SofiaPro-Medium",
+        fontBold: "SofiaPro-Bold",
         fontFallback: "Helvetica",
 
         // Title-safe: standard 10% inset
@@ -152,23 +157,24 @@
         return layer;
     }
 
-    function resolveFont() {
-        // Verify the configured PostScript name actually resolves.
+    // Verify a PostScript name actually resolves rather than silently
+    // substituting. Returns the name on success, null so the caller can warn.
+    function resolveFont(psName) {
         var probe = null;
         try {
             var testComp = app.project.items.addComp("__fontprobe", 100, 100, 1, 1, 25);
             var t = testComp.layers.addText("x");
             var p = t.property("ADBE Text Properties").property("ADBE Text Document");
             var d = p.value;
-            d.font = CFG.font;
+            d.font = psName;
             p.setValue(d);
             probe = p.value.font;
             testComp.remove();
         } catch (e) {
             probe = null;
         }
-        if (probe && probe.indexOf("Sofia") !== -1) return CFG.font;
-        return null;   // caller warns and falls back
+        if (probe && probe === psName) return psName;
+        return null;
     }
 
     // ---------------------------------------------------------------
@@ -180,8 +186,13 @@
     app.beginUndoGroup("Build Iterable Webinar 4x5 Template");
 
     try {
-        var resolved = resolveFont();
+        var resolved = resolveFont(CFG.font);
         var font = resolved || CFG.fontFallback;
+
+        // Speaker name runs heavier than everything else, per the approved
+        // design. Falls back to the body weight rather than to Helvetica.
+        var resolvedBold = resolveFont(CFG.fontBold);
+        var fontBold = resolvedBold || font;
 
         var comp = app.project.items.addComp(
             CFG.compName, CFG.width, CFG.height, 1.0, CFG.duration, CFG.fps
@@ -230,7 +241,7 @@
         role.label = CFG.label.id;
 
         var speakerName = makeText(comp, "SPEAKER — name",
-                                   "Jamie Alvarez", CFG.type.name, font);
+                                   "Jamie Alvarez", CFG.type.name, fontBold);
         speakerName.label = CFG.label.id;
 
         // --- Speaker window: rounded rect matte over a footage placeholder ---
@@ -278,6 +289,11 @@
                  + "Fix: run  alert(app.fonts.allFontFamilies.join(\"\\n\"))  in the\n"
                  + "Script Editor, find the Sofia Pro entry, update CFG.font,\n"
                  + "and re-run this script.\n\n";
+        }
+        if (!resolvedBold) {
+            msg += "\u26A0  \"" + CFG.fontBold + "\" did not resolve, so the speaker\n"
+                 + "name uses the body weight. The design intends it heavier —\n"
+                 + "install Sofia Pro Bold or update CFG.fontBold.\n\n";
         }
         msg += "Next: add the Essential Graphics controls, then export the\n"
              + ".mogrt. See README.md step 4 onward.";

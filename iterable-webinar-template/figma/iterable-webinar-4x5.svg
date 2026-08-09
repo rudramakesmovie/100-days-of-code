@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Iterable Webinar Template - 4:5 (1080x1350) - APPROVED LAYOUT
+  Geometry mirrors layout.json and CFG in ../build-template.jsx.
+
+  Drag this straight onto a Figma canvas.
+
+  Text is authored as real <text> elements and is NOT outlined, which is the
+  one thing that decides whether Figma gives you editable text layers or dead
+  vector paths. Do not run this through an optimiser that converts text to
+  paths.
+
+  Layer names come from the id attributes. XML ids cannot contain spaces, so
+  they are hyphenated versions of the After Effects layer names.
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1080" height="1350" viewBox="0 0 1080 1350">
+
+  <defs>
+    <radialGradient id="bg-gradient" cx="50%" cy="0%" r="120%">
+      <stop offset="0%"   stop-color="#23263A"/>
+      <stop offset="62%"  stop-color="#15161A"/>
+    </radialGradient>
+  </defs>
+
+  <g id="BACKGROUND-plate">
+    <rect x="0" y="0" width="1080" height="1350" fill="url(#bg-gradient)"/>
+  </g>
+
+  <g id="LOGO-replace-source">
+    <rect x="420" y="100" width="240" height="70" rx="4" fill="#3A3550"/>
+    <text x="540" y="142" fill="#C9C4EC" font-family="Sofia Pro" font-weight="500"
+          font-size="18" text-anchor="middle" letter-spacing="1.5">LOGO</text>
+  </g>
+
+  <g id="SPEAKER-WINDOW-replace-with-footage">
+    <rect x="108" y="200" width="864" height="486" rx="20" fill="#2E313D"/>
+    <text x="540" y="437" fill="#8B8FA8" font-family="Sofia Pro" font-weight="500"
+          font-size="26" text-anchor="middle" letter-spacing="1.2">16:9 SPEAKER WINDOW</text>
+    <text x="540" y="475" fill="#6E7288" font-family="Sofia Pro" font-weight="500"
+          font-size="20" text-anchor="middle">drop footage here — 20px radius</text>
+  </g>
+
+  <g id="SPEAKER-ID">
+    <text id="SPEAKER-name" x="540" y="744" fill="#FFFFFF"
+          font-family="Sofia Pro" font-weight="700" font-size="42"
+          text-anchor="middle">Jamie Alvarez</text>
+    <text id="SPEAKER-title-and-company" x="540" y="788" fill="#C2C4DB"
+          font-family="Sofia Pro" font-weight="500" font-size="38"
+          text-anchor="middle">VP Lifecycle Marketing, Iterable</text>
+  </g>
+
+  <g id="CAPTIONS">
+    <rect id="CAPTION-background-chip" x="120" y="826" width="840" height="170"
+          rx="8" fill="#000000" fill-opacity="0.55"/>
+    <text id="CAPTION-line-1" x="540" y="891" fill="#FFFFFF"
+          font-family="Sofia Pro" font-weight="500" font-size="58"
+          text-anchor="middle">&#8220;the results we saw after</text>
+    <text id="CAPTION-line-2" x="540" y="958" fill="#FFFFFF"
+          font-family="Sofia Pro" font-weight="500" font-size="58"
+          text-anchor="middle">rolling this out were wild.&#8221;</text>
+  </g>
+
+  <g id="TITLE-session-name">
+    <text x="540" y="1075" fill="#E8E6F5"
+          font-family="Sofia Pro" font-weight="500" font-size="40"
+          text-anchor="middle">Scaling Lifecycle Messaging &#8212; Ep. 4</text>
+  </g>
+
+  <!-- Delete or lock this whole group once you are done composing. -->
+  <g id="GUIDES" fill="none" stroke-dasharray="12 8" stroke-width="3">
+    <rect id="GUIDE-title-safe" x="108" y="90" width="864" height="1170" stroke="#FF5DA2"/>
+    <rect id="GUIDE-linkedin-bottom-bar" x="0" y="1240" width="1080" height="110" stroke="#FFB020"/>
+    <rect id="GUIDE-linkedin-top-right-icon" x="984" y="0" width="96" height="64" stroke="#FFB020"/>
+    <rect id="GUIDE-ig-reels-action-rail" x="960" y="815" width="120" height="500" stroke="#66CCFF"/>
+    <rect id="GUIDE-ig-reels-caption-strip" x="0" y="1315" width="1080" height="35" stroke="#66CCFF"/>
+    <rect id="GUIDE-ig-profile-grid-crop" x="34" y="0" width="1012" height="1350" stroke="#66CCFF"/>
+  </g>
+
+</svg>

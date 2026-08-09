@@ -8,7 +8,10 @@ episode-to-episode work entirely inside Premiere.
 |---|---|
 | `build-template.jsx` | AE script that builds the whole comp to spec. Start here. |
 | `layout-spec.html` | The approved layout — open in a browser for pixel coordinates and the phone-legibility check. |
+| `figma/` | Remix kit for the design team — drag-in SVGs and a Figma plugin. See `figma/README.md`. |
 | `README.md` | This guide. |
+
+**Designers:** you want `figma/`. **Editors:** you want this file.
 
 ---
 
@@ -36,6 +39,10 @@ fine and text isn't.
 - Instagram Reels action rail — x960–1080, y815–1315
 - Instagram Reels caption strip — y1315–1350
 - Instagram profile grid crop — x34–1046 (3:4 thumbnail)
+
+Type is Sofia Pro Medium throughout, except the speaker name which is Bold — the
+one element the approved design sets heavier. The script warns if either weight
+fails to resolve rather than substituting silently.
 
 Type sizes were set against a phone-width legibility check rather than by eye on
 a desktop monitor. At a ~240px LinkedIn feed render, captions land at ≈12.9px
